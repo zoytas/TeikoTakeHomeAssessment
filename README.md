@@ -4,7 +4,7 @@ Analysis of immune cell counts from a clinical trial of miraclib, covering datab
 design, relative frequency calculation, response prediction statistics, and baseline
 cohort queries.
 
-**Live dashboard:** 
+**Live dashboard:** [loblaw-bio-dashboard.onrender.com](https://loblaw-bio-dashboard.onrender.com/)
 
 > Note: the dashboard is hosted on Render's free tier, which sleeps after 15 minutes
 > of inactivity. The first load may take 30–60 seconds to wake.
