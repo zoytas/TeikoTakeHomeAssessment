@@ -1,0 +1,14 @@
+SIGNIFICANCE REPORT — melanoma patients on miraclib (PBMC)
+Responders (n=331) vs non-responders (n=325), one value per subject.
+Mann-Whitney U test per population; Benjamini-Hochberg correction across 5 tests; alpha = 0.05.
+
+RESULT: No cell population shows a significant difference between
+responders and non-responders after correcting for multiple testing.
+
+Closest to significance: cd4_t_cell (raw p = 0.0124, adjusted p = 0.0621).
+Median difference +0.39 percentage points; effect size 0.113 (near zero).
+
+Interpretation: with 656 subjects this analysis has ample power to detect
+modest differences. All five effect sizes are near zero and the group
+distributions overlap almost entirely, so the absence of significance
+reflects genuinely similar cell populations rather than insufficient data.
