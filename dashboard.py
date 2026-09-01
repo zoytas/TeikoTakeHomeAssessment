@@ -109,9 +109,9 @@ with tab3:
     )
 
     st.markdown("**Statistical results**")
-    st.dataframe(
-        stats_df.round(4), use_container_width=True, hide_index=True
-    )
+    display = stats_df.round(4).copy()
+    display["significant"] = display.significant.map({True: "Yes", False: "No"})
+    st.dataframe(display, use_container_width=True, hide_index=True)
 
     st.markdown("**Conclusion**")
     st.code(report, language=None)
