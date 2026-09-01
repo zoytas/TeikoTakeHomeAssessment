@@ -6,6 +6,7 @@ Run locally:  streamlit run dashboard.py
 from pathlib import Path
 
 import pandas as pd
+import plotly.express as px
 import streamlit as st
 
 import analysis
@@ -67,9 +68,45 @@ with tab3:
     c2.metric("Responders", int(stats_df.n_responders.iloc[0]))
     c3.metric("Non-responders", int(stats_df.n_non_responders.iloc[0]))
 
-    img = ROOT / "outputs" / "response_boxplot.png"
-    if img.exists():
-        st.image(str(img), use_container_width=True)
+    pops = sorted(per_subj.population.unique())
+    chosen = st.multiselect("Populations to show", pops, default=pops, key="p3_pops")
+    plot_df = per_subj[per_subj.population.isin(chosen)] if chosen else per_subj
+
+    labels = {
+        r.population: f"{r.population}<br>p={r.p_adjusted:.3f}"
+        for _, r in stats_df.iterrows()
+    }
+    plot_df = plot_df.assign(label=plot_df.population.map(labels))
+
+    fig = px.box(
+        plot_df,
+        x="label",
+        y="percentage",
+        color="response",
+        points=False,
+        category_orders={
+            "label": [labels[p] for p in pops if p in chosen],
+            "response": ["yes", "no"],
+        },
+        color_discrete_map={"yes": "#4a7c8c", "no": "#c05f3c"},
+        labels={
+            "percentage": "Relative frequency (%)",
+            "label": "",
+            "response": "Responder",
+        },
+    )
+    fig.update_layout(
+        boxmode="group",
+        height=500,
+        margin=dict(t=30, b=10),
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, x=0),
+    )
+    st.plotly_chart(fig, use_container_width=True)
+    st.caption(
+        "Hover a box for quartiles; click a legend entry to hide that group. "
+        "Benjamini-Hochberg adjusted p-values shown under each population. "
+        "A static version is saved to outputs/response_boxplot.png."
+    )
 
     st.markdown("**Statistical results**")
     st.dataframe(
